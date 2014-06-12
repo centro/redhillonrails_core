@@ -14,7 +14,7 @@ module RedhillonrailsCore
           dump << ", #{references_table_name.inspect}, #{Array(references_column_names).collect{ |name| name.inspect }.join(', ')}"
           dump << ", :on_update => :#{on_update}" if on_update
           dump << ", :on_delete => :#{on_delete}" if on_delete
-          dump << ", :deferrable => #{deferrable}" if deferrable
+          dump << ", :deferrable => :#{deferrable}" if deferrable
           dump << ", :name => #{name.inspect}" if name
           dump
         end
