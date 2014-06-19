@@ -10,13 +10,19 @@ module RedhillonrailsCore
 
         def to_dump
           dump = "add_foreign_key"
-          dump << " #{table_name.inspect}, #{Array(column_names).collect{ |name| name.inspect }.join(', ')}"
-          dump << ", #{references_table_name.inspect}, #{Array(references_column_names).collect{ |name| name.inspect }.join(', ')}"
+          dump << " #{table_name.inspect}, #{fk_column_names(column_names)}"
+          dump << ", #{references_table_name.inspect}, #{fk_column_names(references_column_names)}"
           dump << ", :on_update => :#{on_update}" if on_update
           dump << ", :on_delete => :#{on_delete}" if on_delete
-          dump << ", :deferrable => :#{deferrable}" if deferrable
           dump << ", :name => #{name.inspect}" if name
           dump
+        end
+
+        def fk_column_names(names)
+          if names.length > 1
+            raise StandardError, "Only FK on single columns are supported."
+          end
+          Array(names).collect{ |name| name.inspect }.join(', ')
         end
 
         def to_sql
